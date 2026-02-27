@@ -1,6 +1,4 @@
-# 🚀 SkillChain: A Step Towards Research & Development
-
-This repository contains the development progress of my project **SkillChain**. 
+# This repository contains the development progress of my project **SkillChain**. 
 
 ## 📅 Weekly Progress Log
 
