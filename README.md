@@ -1,27 +1,33 @@
-# This repository contains the development progress of my project **SkillChain**. 
+# Full stack development Project : SkillChain
 
-## 📅 Weekly Progress Log
+This repository contains the development progress of my project **SkillChain**. This project is a core part of my academic journey and research goals.
 
-<details>
-  <summary><b>Week 1: Local Environment & Backend Foundation (Success)</b></summary>
+## 📊 Weekly Progress Log
 
-  - [x] Initialized Laravel 11 project.
+<details open>
+  <summary><b>Week 1: Environment Setup & React Integration (Feb 20 - Feb 27)</b></summary>
+
+  - [x] Initialized Laravel 11 project and environment.
   - [x] Resolved environment variables and database migration issues.
-  - [x] Successfully linked and pushed code to GitHub.
-  - [x] Installed Node.js for modern frontend workflow.
+  - [x] Successfully linked and pushed initial code to GitHub.
+  - [x] Installed Node.js and configured modern frontend workflow.
+  - [x] **Integrated React JS via Laravel Breeze (Starter Kit).**
+  - [x] **Resolved Windows PowerShell Execution Policy for Vite.**
+  - [x] **Successfully implemented User Authentication (Login/Register) using React components.**
 </details>
 
 <details>
-  <summary><b>Week 2: React JS & Authentication (In Progress)</b></summary>
+  <summary><b>Week 2: Component Architecture & Dashboard Customization (Upcoming)</b></summary>
 
-  - [ ] Integrating Laravel Breeze for React scaffolding.
-  - [ ] Setting up React components for the landing page.
-  - [ ] Implementing user authentication and dashboard structure.
+  - [ ] Customizing React components for the landing page.
+  - [ ] Designing Database Schema for research modules.
+  - [ ] Implementing specific dashboard features for SkillChain.
 </details>
+
 
 ## 🛠️ Technology Stack
 - **Backend:** Laravel 11 (PHP 8.2)
-- **Frontend:** React JS
-- **Database:** SQLite / MySQL
+- **Frontend:** React JS (Vite)
+- **Communication:** Inertia JS
+- **Database:** MySQL / SQLite
 - **Version Control:** Git & GitHub
-
