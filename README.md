@@ -17,11 +17,12 @@ This repository contains the development progress of my project **SkillChain**. 
 </details>
 
 <details>
-  <summary><b>Week 2: Component Architecture & Dashboard Customization (Upcoming)</b></summary>
+  <summary><b>Week 2: Component Architecture & Dashboard Customization (March 1-march 5)</b></summary>
 
-  - [ ] Customizing React components for the landing page.
-  - [ ] Designing Database Schema for research modules.
-  - [ ] Implementing specific dashboard features for SkillChain.
+- [x] Initialized Laravel 11 & React Integration.
+- [x] Configured Database and fixed Migration issues.
+- [x] Created `Task` Model and Migration for SkillChain tracking.
+- [x] Successfully ran `php artisan migrate:fresh` to reset and clean database.
 </details>
 
 
