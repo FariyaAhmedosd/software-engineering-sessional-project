@@ -23,6 +23,12 @@ This repository contains the development progress of my project **SkillChain**. 
 - [x] Configured Database and fixed Migration issues.
 - [x] Created `Task` Model and Migration for SkillChain tracking.
 - [x] Successfully ran `php artisan migrate:fresh` to reset and clean database.
+## March 4, 2026
+Successfully implemented the following core features:
+- **Authentication System:** Integrated Laravel Breeze/Jetstream for secure user login.
+- **Task Management:** Added functionality to create and save skill tasks (e.g., C++, Java, JavaScript).
+- **Database Integration:** Configured SQLite as the primary database engine for local development.
+- **Data Persistence:** Verified data storage using SQLite Viewer, ensuring all user inputs are correctly mapped to tables.
 </details>
 
 
