@@ -13,6 +13,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+use App\Http\Controllers\TaskController;
+Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
