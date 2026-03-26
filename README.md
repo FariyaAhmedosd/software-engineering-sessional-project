@@ -30,14 +30,19 @@ Successfully implemented the following core features:
 - **Database Integration:** Configured SQLite as the primary database engine for local development.
 - **Data Persistence:** Verified data storage using SQLite Viewer, ensuring all user inputs are correctly mapped to tables.
 </details>
-<details>
 
-  <summary><b>Week 3: implemented several core features to enhance the user experience and platform intelligence:</b></summary>
-### 📝 Updates (March 26, 2026)
-* **Dark Mode Support:** Integrated a theme toggle with Tailwind CSS and React state, allowing users to switch between Light and Dark modes.
-* **Smart Skill Matching:** Upgraded the recommendation engine to parse comma-separated skills, providing more accurate mentor suggestions based on user interests.
-* **Profile Completion Tracker:** Added a dynamic progress bar on the dashboard to encourage users to complete their profiles.
-* **Password Recovery:** Successfully implemented administrative password reset functionality via Laravel Tinker.
+<details>
+<summary><b>Week 3:Intelligent Features & UI Enhancements :</b></summary>
+---
+### 📅 Week 3 (March 26, 2026)
+This week, I focused on making the platform smarter and more user-friendly. Key implementations include:
+
+* **🌙 Dark Mode Support:** Integrated a theme toggle using Tailwind CSS and React state. Users can now seamlessly switch between Light and Dark modes with persistent settings via `localStorage`.
+* **🧠 Smart Skill Matching:** Upgraded the mentor recommendation engine. The system now parses comma-separated skills (e.g., "C, C++, Java"), ensuring more accurate matches between mentor expertise and student interests.
+* **📊 Profile Completion Tracker:** Added a dynamic progress bar on the dashboard. This motivates users to complete their profiles by providing a visual representation of their data status.
+* **🔐 Administrative Control:** Successfully implemented backend password recovery and user data management using Laravel Tinker.
+
+---
 </details>
 
 ## 🛠️ Technology Stack
