@@ -6,18 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            
+            // Custom fields for SkillBridge
+            $table->string('batch')->nullable();
+            $table->string('department')->nullable();
+            $table->text('known_skills')->nullable();
+            $table->text('interested_skills')->nullable();
+            $table->string('whatsapp_number')->nullable();
+            
             $table->rememberToken();
             $table->timestamps();
         });
@@ -38,9 +42,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');

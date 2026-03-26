@@ -3,41 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request): View
     {
-        return Inertia::render('Profile/Edit', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
+        return view('profile.edit', [
+            'user' => $request->user(),
         ]);
     }
 
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        // Database update - Spelling strictly matched with migration
+        $user->update([
+            'batch' => $request->batch,
+            'department' => $request->department,
+            'known_skills' => $request->known_skills,
+            'interested_skills' => $request->interested_skills,
+            'whatsapp_number' => $request->whatsapp_number,
+        ]);
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -45,7 +45,7 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validate([
+        $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
 

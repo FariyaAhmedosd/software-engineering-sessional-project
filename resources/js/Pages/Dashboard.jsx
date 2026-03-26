@@ -1,49 +1,112 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 
-export default function Dashboard() {
-    const { data, setData, post, processing, errors } = useForm({
-        title: '',
-    });
+export default function Dashboard({ auth, allUsers, recommendedMentors }) {
+    const user = auth.user;
+    
+    // Dark Mode Logic
+    const [darkMode, setDarkMode] = useState(localStorage.getItem('theme') === 'dark');
 
-    const submit = (e) => {
-        e.preventDefault();
-        post(route('tasks.store'), {
-            onSuccess: () => setData('title', ''), // সেভ হওয়ার পর ইনপুট খালি হবে
-        });
-    };
+    useEffect(() => {
+        if (darkMode) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    }, [darkMode]);
 
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard
-                </h2>
+                <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                        SkillChain Dashboard
+                    </h2>
+                    <button 
+                        onClick={() => setDarkMode(!darkMode)}
+                        className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg text-sm font-bold transition"
+                    >
+                        {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+                    </button>
+                </div>
             }
         >
             <Head title="Dashboard" />
 
-            <div className="py-12">
+            <div className="py-12 bg-white dark:bg-gray-900 transition-colors duration-300 min-h-screen">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="bg-white p-6 shadow-sm sm:rounded-lg">
-                        <form onSubmit={submit} className="flex items-center gap-4">
-                            <input 
-                                type="text" 
-                                value={data.title}
-                                onChange={e => setData('title', e.target.value)}
-                                placeholder="Enter your skill task..."
-                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm flex-1"
-                            />
-                            <button 
-                                type="submit" 
-                                disabled={processing} 
-                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-                            >
-                                {processing ? 'Saving...' : 'Save Task'}
-                            </button>
-                        </form>
-                        {errors.title && <div className="text-red-500 mt-2">{errors.title}</div>}
+                    
+                    {/* Welcome Card */}
+                    {/* Profile Completion Progress Bar */}
+<div className="bg-white dark:bg-gray-900 shadow-lg sm:rounded-2xl p-6 mb-8 border border-gray-100 dark:border-gray-800">
+    <div className="flex justify-between items-center mb-2">
+        <span className="text-sm font-bold text-gray-600 dark:text-gray-400">Profile Completion</span>
+        <span className="text-sm font-black text-indigo-600 dark:text-indigo-400">
+            {Math.round(
+                ((user.whatsapp_number ? 1 : 0) + 
+                 (user.known_skills ? 1 : 0) + 
+                 (user.interested_skills ? 1 : 0) + 
+                 (user.department ? 1 : 0)) / 4 * 100
+            )}%
+        </span>
+    </div>
+    <div className="w-full bg-gray-200 dark:bg-gray-700 h-3 rounded-full overflow-hidden">
+        <div 
+            className="bg-gradient-to-r from-indigo-500 to-purple-500 h-full transition-all duration-1000 ease-out"
+            style={{ 
+                width: `${((user.whatsapp_number ? 1 : 0) + 
+                         (user.known_skills ? 1 : 0) + 
+                         (user.interested_skills ? 1 : 0) + 
+                         (user.department ? 1 : 0)) / 4 * 100}%` 
+            }}
+        ></div>
+    </div>
+    <p className="text-[10px] text-gray-400 mt-2 italic">* Complete your profile to get better mentor recommendations!</p>
+</div>
+
+                    {/* Recommended Mentors (Smart Matching) */}
+                    {recommendedMentors && recommendedMentors.length > 0 && (
+                        <div className="mb-12">
+                            <h3 className="text-xl font-bold text-indigo-600 dark:text-indigo-400 mb-6 flex items-center">
+                                ⭐ Recommended for You (Based on your interests)
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {recommendedMentors.map((mentor) => (
+                                    <div key={mentor.id} className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 p-5 rounded-2xl shadow-sm">
+                                        <p className="font-bold text-indigo-700 dark:text-indigo-300">{mentor.name}</p>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">{mentor.department}</p>
+                                        <div className="mt-3 bg-white dark:bg-gray-800 p-2 rounded text-sm dark:text-gray-300">
+                                            Expert in: <b>{mentor.known_skills}</b>
+                                        </div>
+                                        <a href={`https://wa.me/${mentor.whatsapp_number}`} target="_blank" className="mt-4 block text-center bg-green-500 text-white py-2 rounded-xl font-bold">WhatsApp</a>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* All Users List */}
+                    <div className="mt-12">
+                        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-6">
+                            🔍 All Members
+                        </h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {allUsers.map((otherUser) => (
+                                <div key={otherUser.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-5 rounded-2xl shadow-sm transition-colors">
+                                    <p className="font-bold text-gray-900 dark:text-white">{otherUser.name}</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">{otherUser.department} • {otherUser.batch}</p>
+                                    <div className="mt-3 bg-gray-50 dark:bg-gray-700 p-2 rounded text-sm text-gray-600 dark:text-gray-300 italic">
+                                        Skills: {otherUser.known_skills || 'N/A'}
+                                    </div>
+                                    <a href={`https://wa.me/${otherUser.whatsapp_number}`} target="_blank" className="mt-4 block text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 rounded-xl font-bold">Connect</a>
+                                </div>
+                            ))}
+                        </div>
                     </div>
+                    
                 </div>
             </div>
         </AuthenticatedLayout>
