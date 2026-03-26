@@ -29,6 +29,8 @@ Successfully implemented the following core features:
 - **Task Management:** Added functionality to create and save skill tasks (e.g., C++, Java, JavaScript).
 - **Database Integration:** Configured SQLite as the primary database engine for local development.
 - **Data Persistence:** Verified data storage using SQLite Viewer, ensuring all user inputs are correctly mapped to tables.
+</details>
+<details>
 
   <summary><b>Week 3: implemented several core features to enhance the user experience and platform intelligence:</b></summary>
 ### 📝 Updates (March 26, 2026)
