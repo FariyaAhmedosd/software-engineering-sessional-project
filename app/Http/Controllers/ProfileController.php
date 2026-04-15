@@ -3,49 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    public function edit(Request $request): Response
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
+        return Inertia::render('Profile/Edit', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => session('status'),
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(Request $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
 
-        // Database update - Spelling strictly matched with migration
-        $user->update([
-            'batch' => $request->batch,
-            'department' => $request->department,
-            'known_skills' => $request->known_skills,
-            'interested_skills' => $request->interested_skills,
-            'whatsapp_number' => $request->whatsapp_number,
-        ]);
+        // কাস্টম ডাটা আপডেট
+        $user->fill($request->validated());
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        // --- ইমেজ আপলোড লজিক ---
+        if ($request->hasFile('profile_photo')) {
+            // আগের ছবি থাকলে ডিলিট করার লজিক (ঐচ্ছিক)
+            if ($user->profile_photo && file_exists(public_path('uploads/profiles/' . $user->profile_photo))) {
+                unlink(public_path('uploads/profiles/' . $user->profile_photo));
+            }
+
+            $file = $request->file('profile_photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/profiles'), $filename);
+            $user->profile_photo = $filename;
+        }
+
+        $user->save();
+
+        return Redirect::route('profile.edit');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
+        $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 

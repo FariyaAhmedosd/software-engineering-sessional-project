@@ -38,6 +38,21 @@ export default function Dashboard({ auth, allUsers, recommendedMentors }) {
 
             <div className="py-12 bg-white dark:bg-gray-900 transition-colors duration-300 min-h-screen">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    {/* প্রোফাইল পিকচার অংশ */}
+    <img 
+        src={auth.user.profile_photo 
+            ? `/uploads/profiles/${auth.user.profile_photo}` 
+            : `https://ui-avatars.com/api/?name=${auth.user.name}&background=random`} 
+        className="w-20 h-20 rounded-full border-4 border-indigo-500 object-cover shadow-lg"
+        alt={auth.user.name}
+    />
+    <div>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+            Welcome back, {auth.user.name}!
+        </h2>
+        <p className="text-sm text-gray-500">Department: {auth.user.department}</p>
+    </div>
+
                     
                     {/* Welcome Card */}
                     {/* Profile Completion Progress Bar */}
@@ -76,6 +91,19 @@ export default function Dashboard({ auth, allUsers, recommendedMentors }) {
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {recommendedMentors.map((mentor) => (
                                     <div key={mentor.id} className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 p-5 rounded-2xl shadow-sm">
+                                       <div className="flex items-center space-x-4">
+    <img 
+        src={mentor.profile_photo 
+            ? `/uploads/profiles/${mentor.profile_photo}` 
+            : `https://ui-avatars.com/api/?name=${mentor.name}&background=random`} 
+        className="w-12 h-12 rounded-full object-cover border-2 border-indigo-400"
+        alt={mentor.name}
+    />
+    <div>
+        <h4 className="font-semibold text-gray-900 dark:text-white">{mentor.name}</h4>
+        <p className="text-xs text-indigo-500 font-medium">{mentor.known_skills}</p>
+    </div>
+</div> 
                                         <p className="font-bold text-indigo-700 dark:text-indigo-300">{mentor.name}</p>
                                         <p className="text-xs text-gray-500 dark:text-gray-400">{mentor.department}</p>
                                         <div className="mt-3 bg-white dark:bg-gray-800 p-2 rounded text-sm dark:text-gray-300">

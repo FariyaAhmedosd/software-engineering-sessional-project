@@ -34,16 +34,31 @@ Successfully implemented the following core features:
 <details>
 <summary><b>Week 3:Intelligent Features & UI Enhancements :</b></summary>
 ---
-### 📅 Week 3 (March 26, 2026)
+###  Week 3 (March 26, 2026)
 This week, I focused on making the platform smarter and more user-friendly. Key implementations include:
 
-* **🌙 Dark Mode Support:** Integrated a theme toggle using Tailwind CSS and React state. Users can now seamlessly switch between Light and Dark modes with persistent settings via `localStorage`.
-* **🧠 Smart Skill Matching:** Upgraded the mentor recommendation engine. The system now parses comma-separated skills (e.g., "C, C++, Java"), ensuring more accurate matches between mentor expertise and student interests.
-* **📊 Profile Completion Tracker:** Added a dynamic progress bar on the dashboard. This motivates users to complete their profiles by providing a visual representation of their data status.
-* **🔐 Administrative Control:** Successfully implemented backend password recovery and user data management using Laravel Tinker.
+* ** Dark Mode Support:** Integrated a theme toggle using Tailwind CSS and React state. Users can now seamlessly switch between Light and Dark modes with persistent settings via `localStorage`.
+* ** Smart Skill Matching:** Upgraded the mentor recommendation engine. The system now parses comma-separated skills (e.g., "C, C++, Java"), ensuring more accurate matches between mentor expertise and student interests.
+* ** Profile Completion Tracker:** Added a dynamic progress bar on the dashboard. This motivates users to complete their profiles by providing a visual representation of their data status.
+* ** Administrative Control:** Successfully implemented backend password recovery and user data management using Laravel Tinker.
 
 ---
 </details>
+# 🎓 SkillChain - Mentorship & Skill Matching Platform
+
+##  Project Progress: Week 4 Update
+In this stage of the Software Engineering Sessional, I have focused on the core UI/UX and essential user features.
+
+###  Key Accomplishments this week:
+- **Homepage Transformation:** Designed a professional, responsive banner that represents the platform's vision.
+- **Dynamic Profile System:** Users can now update their academic details (Batch, Department) and skills.
+- **Image Upload Integration:** Successfully implemented a profile picture upload system using a custom logic to handle multipart/form-data.
+- **Smart Dashboard UI:** Built a dashboard that displays personalized greetings, user profile photos, and dynamic progress bars.
+- **Tech Stack Bridge:** Integrated Laravel 11 (Backend) with React.js (Frontend) using Inertia.js for a seamless Single Page Application (SPA) experience.
+
+
+
+---
 
 ## 🛠️ Technology Stack
 - **Backend:** Laravel 11 (PHP 8.2)
