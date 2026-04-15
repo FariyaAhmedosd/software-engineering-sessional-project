@@ -44,7 +44,7 @@ This week, I focused on making the platform smarter and more user-friendly. Key 
 
 ---
 </details>
-
+<details>
 <summary><b>Week 4:Homepage banner ,Image upload & UI Enhancements :</b></summary>
 
 ###  Key Accomplishments this week:
@@ -53,10 +53,8 @@ This week, I focused on making the platform smarter and more user-friendly. Key 
 - **Image Upload Integration:** Successfully implemented a profile picture upload system using a custom logic to handle multipart/form-data.
 - **Smart Dashboard UI:** Built a dashboard that displays personalized greetings, user profile photos, and dynamic progress bars.
 - **Tech Stack Bridge:** Integrated Laravel 11 (Backend) with React.js (Frontend) using Inertia.js for a seamless Single Page Application (SPA) experience.
-
-
-
 ---
+</details>
 
 ## 🛠️ Technology Stack
 - **Backend:** Laravel 11 (PHP 8.2)
