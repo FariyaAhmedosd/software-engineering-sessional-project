@@ -44,10 +44,8 @@ This week, I focused on making the platform smarter and more user-friendly. Key 
 
 ---
 </details>
-# 🎓 SkillChain - Mentorship & Skill Matching Platform
 
-##  Project Progress: Week 4 Update
-In this stage of the Software Engineering Sessional, I have focused on the core UI/UX and essential user features.
+<summary><b>Week 4:Homepage banner ,Image upload & UI Enhancements :</b></summary>
 
 ###  Key Accomplishments this week:
 - **Homepage Transformation:** Designed a professional, responsive banner that represents the platform's vision.
