@@ -31,6 +31,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         onError: (errors) => console.log(errors),
     });
 };
+
     return (
         <section className={className}>
             <header>
