@@ -55,6 +55,14 @@ This week, I focused on making the platform smarter and more user-friendly. Key 
 - **Tech Stack Bridge:** Integrated Laravel 11 (Backend) with React.js (Frontend) using Inertia.js for a seamless Single Page Application (SPA) experience.
 ---
 </details>
+<details>
+<summary><b>Week 5: Update Homepage banner into dark theme & floating logos & UI Enhancements :</b></summary>
+
+###  Key Accomplishments this week:
+- **Homepage Transformation:** Designed a professional, responsive banner that represents the platform's vision.
+- **Smart Dashboard UI:** Built a dashboard that displays personalized greetings, user profile photos, and dynamic progress bars.
+---
+</details>
 
 ## 🛠️ Technology Stack
 - **Backend:** Laravel 11 (PHP 8.2)

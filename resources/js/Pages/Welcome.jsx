@@ -102,7 +102,7 @@ export default function Welcome({ auth }) {
             </div>
 
             {/* --- Keyframe Animation for Floating Icons --- */}
-            <style jsx global>{`
+            <style  jsx  global>{`
                 @keyframes float {
                     0%, 100% { transform: translateY(0); }
                     50% { transform: translateY(-20px); }
