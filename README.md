@@ -59,8 +59,27 @@ This week, I focused on making the platform smarter and more user-friendly. Key 
 <summary><b>Week 5: Update Homepage banner into dark theme & floating logos & UI Enhancements :</b></summary>
 
 ###  Key Accomplishments this week:
-- **Homepage Transformation:** Designed a professional, responsive dark theme banner that represents the platform's vision.
+- **Homepage Transformation:** Designed a dark theme professional, responsive banner that represents the platform's vision.
 - **Smart Dashboard UI:** Built a dashboard that displays personalized greetings, user profile photos, and dynamic progress bars.
+---
+</details>
+<details>
+<summary><b>Week 6: Update Homepage banner into dark theme & floating logos & UI Enhancements :</b></summary>
+
+###  Key Accomplishments this week:
+- ** Mentorship Request System:** Successfully implemented the core mentorship request logic allowing students to send skill-based requests to mentors.
+Database Schema: Created the mentorship_requests table to store student_id, mentor_id, skill_name, and status.
+
+Frontend Integration (React):
+Integrated a dynamic request form within the Dashboard.jsx mentor cards.
+Used Inertia.js useForm for seamless, non-reloading data submission.
+
+Backend Logic:
+Developed MentorshipRequestController to handle data validation and storage.
+Created the MentorshipRequest model with mass-assignment protection (fillable).
+
+Bug Fixes: Resolved the "Class MentorshipRequest not found" error by properly mapping models and controllers.
+
 ---
 </details>
 

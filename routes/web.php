@@ -5,6 +5,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Http\Controllers\MentorshipRequestController;
+
+Route::post('/mentorship-request', [MentorshipRequestController::class, 'store'])->middleware(['auth', 'verified'])->name('mentorship.request');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
