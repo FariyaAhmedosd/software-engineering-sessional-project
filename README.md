@@ -59,7 +59,7 @@ This week, I focused on making the platform smarter and more user-friendly. Key 
 <summary><b>Week 5: Update Homepage banner into dark theme & floating logos & UI Enhancements :</b></summary>
 
 ###  Key Accomplishments this week:
-- **Homepage Transformation:** Designed a professional, responsive banner that represents the platform's vision.
+- **Homepage Transformation:** Designed a professional, responsive dark theme banner that represents the platform's vision.
 - **Smart Dashboard UI:** Built a dashboard that displays personalized greetings, user profile photos, and dynamic progress bars.
 ---
 </details>
