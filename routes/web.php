@@ -1,14 +1,18 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MentorshipRequestController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Models\User;
-use App\Http\Controllers\MentorshipRequestController;
 
-Route::post('/mentorship-request', [MentorshipRequestController::class, 'store'])->middleware(['auth', 'verified'])->name('mentorship.request');
+// Mentorship Request Route
+Route::post('/mentorship-request', [MentorshipRequestController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('mentorship.request');
 
+// Welcome / Landing Page Route
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -18,28 +22,13 @@ Route::get('/', function () {
     ]);
 });
 
+// Authenticated Routes
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
-        
-        // তোমার ইন্টারেস্টগুলোকে কমা দিয়ে আলাদা করে লিস্ট করা
-        $interests = array_map('trim', explode(',', $user->interested_skills ?? ''));
+    
+    // Cleaned Dashboard Route using DashboardController
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        return Inertia::render('Dashboard', [
-            // স্মার্ট লজিক: যেকোনো একটি ইন্টারেস্ট মিলে গেলেই সে রিকমেন্ডেড হবে
-            'recommendedMentors' => User::where('id', '!=', $user->id)
-                ->where(function ($query) use ($interests) {
-                    foreach ($interests as $interest) {
-                        if (!empty($interest)) {
-                            $query->orWhere('known_skills', 'like', '%' . $interest . '%');
-                        }
-                    }
-                })->get(),
-            
-            'allUsers' => User::where('id', '!=', $user->id)->get()
-        ]);
-    })->name('dashboard');
-
+    // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

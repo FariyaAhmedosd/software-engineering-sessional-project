@@ -81,6 +81,19 @@ Created the MentorshipRequest model with mass-assignment protection (fillable).
 Bug Fixes: Resolved the "Class MentorshipRequest not found" error by properly mapping models and controllers.
 
 ---
+## 🚀 Recent Updates & Features Added 
+
+### 1. Backend Controller Refactoring & Route Optimization
+* **Dashboard Logic Separation:** Refactored inline Closure routes into a dedicated `DashboardController` (`app/Http/Controllers/DashboardController.php`) for better separation of concerns and maintainability.
+* **Database & Model Alignment:** Updated `User` model `$fillable` attributes to properly persist `known_skills` and `interested_skills`.
+
+### 2. Automated Peer Study Group Prompt (FR3)
+* **Skill Cohort Aggregation:** Implemented dynamic tracking logic in `DashboardController` that detects when multiple students ($\ge 2$) share identical interested skills.
+* **Dashboard Alert Banner:** Created a responsive, interactive alert box in React (`Dashboard.jsx`) that prompts users to join/create a peer study group based on matched interest clusters.
+
+### 3. Mentor Matching Engine Refinement (FR2)
+* **Smart Matching:** Fine-tuned mentor matching logic to strictly filter out empty search vectors and prevent inaccurate mentor recommendations.
+* **Component Optimization:** Re-architected `MentorCard` into a dedicated sub-component in React to comply with React Hooks rules (`useForm`) inside map loops.
 </details>
 
 ## 🛠️ Technology Stack

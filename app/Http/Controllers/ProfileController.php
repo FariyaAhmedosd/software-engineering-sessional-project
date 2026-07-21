@@ -21,34 +21,32 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $user = $request->user();
+public function update(Request $request)
+{
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255'],
+        'known_skills' => ['nullable', 'string'],
+        'interested_skills' => ['nullable', 'string'],
+    ]);
 
-        // কাস্টম ডাটা আপডেট
-        $user->fill($request->validated());
+    $user = $request->user();
 
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
+    $user->fill([
+        'name' => $request->name,
+        'email' => $request->email,
+        'known_skills' => $request->known_skills,
+        'interested_skills' => $request->interested_skills,
+    ]);
 
-        // --- ইমেজ আপলোড লজিক ---
-        if ($request->hasFile('profile_photo')) {
-            // আগের ছবি থাকলে ডিলিট করার লজিক (ঐচ্ছিক)
-            if ($user->profile_photo && file_exists(public_path('uploads/profiles/' . $user->profile_photo))) {
-                unlink(public_path('uploads/profiles/' . $user->profile_photo));
-            }
-
-            $file = $request->file('profile_photo');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads/profiles'), $filename);
-            $user->profile_photo = $filename;
-        }
-
-        $user->save();
-
-        return Redirect::route('profile.edit');
+    if ($user->isDirty('email')) {
+        $user->email_verified_at = null;
     }
+
+    $user->save();
+
+    return redirect()->route('profile.edit');
+}
 
     public function destroy(Request $request): RedirectResponse
     {
