@@ -95,6 +95,19 @@ Bug Fixes: Resolved the "Class MentorshipRequest not found" error by properly ma
 * **Smart Matching:** Fine-tuned mentor matching logic to strictly filter out empty search vectors and prevent inaccurate mentor recommendations.
 * **Component Optimization:** Re-architected `MentorCard` into a dedicated sub-component in React to comply with React Hooks rules (`useForm`) inside map loops.
 </details>
+<details open>
+<summary><b>Week 7: Admin Panel Implementation & Profile/Route Fixes</b></summary>
+
+### Key Accomplishments this week:
+- **Admin Panel Integration:** Implemented an admin control structure to manage users, monitor platform activities, and oversee skill data.
+- **Profile Controller & Update Fixes:** 
+  - Added proper validation and logic in `ProfileController` to handle user details like `batch`, `department`, `whatsapp_number`, and `known_skills`/`interested_skills`.
+  - Implemented secure profile photo upload functionality with custom file naming and storage in `public/uploads/profiles`.
+- **Method Spoofing & Route Optimization:** 
+  - Fixed the `405 Method Not Allowed` error during profile updates by correctly implementing Inertia.js method spoofing (`_method: 'patch'`) with `router.post`.
+  - Optimized routes and cleared route/cache configurations via Artisan commands to ensure seamless form submissions.
+- **Dynamic Resource Handling:** Added fallback mechanisms and dynamic YouTube search URL generation for skills that lack direct database resources.
+</details>
 
 ## 🛠️ Technology Stack
 - **Backend:** Laravel 11 (PHP 8.2)
