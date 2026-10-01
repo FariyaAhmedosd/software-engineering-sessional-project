@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,32 +20,52 @@ class ProfileController extends Controller
         ]);
     }
 
-public function update(Request $request)
-{
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255'],
-        'known_skills' => ['nullable', 'string'],
-        'interested_skills' => ['nullable', 'string'],
-    ]);
+    public function update(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'batch' => ['nullable', 'string', 'max:50'],
+            'department' => ['nullable', 'string', 'max:100'],
+            'known_skills' => ['nullable', 'string'],
+            'interested_skills' => ['nullable', 'string'],
+            'whatsapp_number' => ['nullable', 'string', 'max:20'],
+            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ]);
 
-    $user = $request->user();
+        $user = $request->user();
 
-    $user->fill([
-        'name' => $request->name,
-        'email' => $request->email,
-        'known_skills' => $request->known_skills,
-        'interested_skills' => $request->interested_skills,
-    ]);
+        // সাধারণ টেক্সট ফিল্ডগুলো আপডেট করা
+        $user->fill([
+            'name' => $request->name,
+            'email' => $request->email,
+            'batch' => $request->batch,
+            'department' => $request->department,
+            'known_skills' => $request->known_skills,
+            'interested_skills' => $request->interested_skills,
+            'whatsapp_number' => $request->whatsapp_number,
+        ]);
 
-    if ($user->isDirty('email')) {
-        $user->email_verified_at = null;
+        // প্রোফাইল ফটো আপলোড হ্যান্ডলিং
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            
+            // public/uploads/profiles ফোল্ডারে সেভ করা
+            $file->move(public_path('uploads/profiles'), $filename);
+            
+            // ডাটাবেজে ছবির নাম আপডেট
+            $user->profile_photo = $filename;
+        }
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
-
-    $user->save();
-
-    return redirect()->route('profile.edit');
-}
 
     public function destroy(Request $request): RedirectResponse
     {

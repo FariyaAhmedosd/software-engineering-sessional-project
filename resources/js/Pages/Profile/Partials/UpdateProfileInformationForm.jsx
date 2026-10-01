@@ -2,14 +2,13 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage, router } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
     const user = usePage().props.auth.user;
 
-    
-    const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
+    const { data, setData, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
         batch: user.batch || '',
@@ -17,20 +16,23 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         known_skills: user.known_skills || '',
         interested_skills: user.interested_skills || '',
         whatsapp_number: user.whatsapp_number || '',
-        profile_photo: null, // ইমেজের জন্য
+        profile_photo: null,
     });
 
- const submit = (e) => {
-    e.preventDefault();
+    const submit = (e) => {
+        e.preventDefault();
 
-    // একদম ডাইরেক্ট পোস্ট রিকোয়েস্ট
-    post(route('profile.update'), {
-        forceFormData: true,
-        preserveScroll: true,
-        onSuccess: () => alert("Success! Profile updated."),
-        onError: (errors) => console.log(errors),
-    });
-};
+        // 📌 Photo/File Upload support ebong PATCH method spoofing
+        router.post(route('profile.update'), {
+            _method: 'patch',
+            ...data,
+        }, {
+            forceFormData: true,
+            preserveScroll: true,
+            onSuccess: () => alert("Success! Profile updated."),
+            onError: (errors) => console.log(errors),
+        });
+    };
 
     return (
         <section className={className}>
@@ -42,11 +44,11 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6" encType="multipart/form-data">
-                {/* প্রোফাইল ফটো প্রিভিউ */}
+                {/* Profile Photo Preview */}
                 {user.profile_photo && (
                     <div className="mt-2">
                         <img 
-                            src={`/uploads/profiles/${user.profile_photo}`} 
+                            src={user.profile_photo.startsWith('http') ? user.profile_photo : `/uploads/profiles/${user.profile_photo}`} 
                             className="w-20 h-20 rounded-full object-cover border-2 border-indigo-500" 
                             alt="Current Profile" 
                         />
@@ -65,7 +67,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.email} />
                 </div>
 
-                {/* প্রোফাইল ফটো ইনপুট */}
+                {/* Profile Photo Input */}
                 <div>
                     <InputLabel htmlFor="profile_photo" value="Profile Photo" />
                     <input
@@ -77,7 +79,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <InputError className="mt-2" message={errors.profile_photo} />
                 </div>
 
-                {/* অন্যান্য ফিল্ডস (Batch, Skills ইত্যাদি) */}
                 <div>
                     <InputLabel htmlFor="batch" value="Batch" />
                     <TextInput id="batch" className="mt-1 block w-full" value={data.batch} onChange={(e) => setData('batch', e.target.value)} />

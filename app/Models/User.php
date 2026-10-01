@@ -33,5 +33,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function seminars()
+{
+    return $this->belongsToMany(Seminar::class);
+}
 }
    

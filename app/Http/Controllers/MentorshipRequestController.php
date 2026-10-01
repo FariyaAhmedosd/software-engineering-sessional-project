@@ -2,29 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\MentorshipRequest;
-use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MentorshipRequestController extends Controller
 {
+    // 1. Mentorship Request Pathano (Previous code)
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'mentor_id' => 'required|exists:users,id',
-            'skill_name' => 'required|string|max:255',
-            'message' => 'nullable|string',
+            'skill_name' => 'required|string',
         ]);
 
         MentorshipRequest::create([
-            'student_id' => auth()->id(),
-            'mentor_id' => $validated['mentor_id'],
-            'skill_name' => $validated['skill_name'],
-            'message' => $validated['message'],
+            'student_id' => Auth::id(),
+            'mentor_id' => $request->mentor_id,
+            'skill_name' => $request->skill_name,
             'status' => 'pending',
         ]);
 
-        return back()->with('success', 'Mentorship request sent successfully!');
+        return redirect()->back()->with('success', 'Mentorship request sent successfully!');
+    }
+
+    // 2. Mentor Request Accept / Reject Kora
+    public function updateStatus(Request $request, MentorshipRequest $mentorshipRequest)
+    {
+        $request->validate([
+            'status' => 'required|in:accepted,rejected',
+        ]);
+
+        $mentorshipRequest->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Request status updated!');
+    }
+
+    // 3. Student Rating & Feedback Dewa
+    public function rateMentor(Request $request, MentorshipRequest $mentorshipRequest)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'feedback' => 'nullable|string',
+        ]);
+
+        $mentorshipRequest->update([
+            'rating' => $request->rating,
+            'feedback' => $request->feedback,
+        ]);
+
+        return redirect()->back()->with('success', 'Thank you for your rating!');
     }
 }
-
