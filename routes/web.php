@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MentorshipRequestController;
+use App\Http\Controllers\MentorRatingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SeminarController;
 use Illuminate\Foundation\Application;
@@ -26,6 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/mentorship-request', [MentorshipRequestController::class, 'store'])->name('mentorship.request');
     Route::patch('/mentorship-request/{mentorshipRequest}/status', [MentorshipRequestController::class, 'updateStatus'])->name('mentorship.updateStatus');
     Route::post('/mentorship-request/{mentorshipRequest}/rate', [MentorshipRequestController::class, 'rateMentor'])->name('mentorship.rate');
+    Route::post('/mentor/rate', [MentorRatingController::class, 'store'])->name('mentor.rate');
 
     // Seminar Enrollment
     Route::post('/seminars/{seminar}/enroll', [SeminarController::class, 'enroll'])->name('seminars.enroll');

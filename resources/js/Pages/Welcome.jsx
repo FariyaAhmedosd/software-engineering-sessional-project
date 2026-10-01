@@ -1,6 +1,9 @@
 import { Link, Head } from '@inertiajs/react';
+import { useState } from 'react';
 
 export default function Welcome({ auth }) {
+    const [showWorkflowModal, setShowWorkflowModal] = useState(false);
+
     return (
         <>
             <Head title="SkillChain - Connect, Learn, Grow" />
@@ -57,7 +60,10 @@ export default function Welcome({ auth }) {
                                     <Link href={route('register')} className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-indigo-600/20 transition-all active:scale-95">
                                         Get Started Now
                                     </Link>
-                                    <button className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-full font-bold transition-all">
+                                    <button 
+                                        onClick={() => setShowWorkflowModal(true)}
+                                        className="bg-slate-800 hover:bg-slate-700 text-white px-8 py-4 rounded-full font-bold transition-all border border-slate-700 cursor-pointer"
+                                    >
                                         How it Works
                                     </button>
                                 </div>
@@ -101,8 +107,97 @@ export default function Welcome({ auth }) {
                 </main>
             </div>
 
+            {/* --- Workflow / How It Works Modal --- */}
+            {showWorkflowModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
+                    <div className="bg-slate-900 border border-indigo-500/40 rounded-3xl p-6 md:p-8 max-w-2xl w-full shadow-2xl text-left relative my-8">
+                        
+                        {/* Close Button */}
+                        <button 
+                            onClick={() => setShowWorkflowModal(false)}
+                            className="absolute top-5 right-5 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 w-8 h-8 rounded-full flex items-center justify-center transition font-bold"
+                        >
+                            ✕
+                        </button>
+
+                        <div className="flex items-center gap-3 mb-6">
+                            <span className="text-3xl">🚀</span>
+                            <div>
+                                <h3 className="text-2xl font-extrabold text-white">How SkillChain Works</h3>
+                                <p className="text-xs text-indigo-400">Step-by-step platform workflow & architecture</p>
+                            </div>
+                        </div>
+
+                        {/* Workflow Steps */}
+                        <div className="space-y-4 text-sm text-slate-300 max-h-[60vh] overflow-y-auto pr-2">
+                            
+                            <div className="p-4 bg-slate-800/60 border border-slate-700/60 rounded-xl">
+                                <h4 className="font-bold text-white flex items-center gap-2 mb-1">
+                                    <span className="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                                    Profile Setup & Skill Mapping
+                                </h4>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    Users register and update their academic profile (Batch, Department) along with their <span className="text-indigo-300 font-semibold">Known Skills</span> (what they can teach) and <span className="text-yellow-300 font-semibold">Interested Skills</span> (what they want to learn).
+                                </p>
+                            </div>
+
+                            <div className="p-4 bg-slate-800/60 border border-slate-700/60 rounded-xl">
+                                <h4 className="font-bold text-white flex items-center gap-2 mb-1">
+                                    <span className="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                                    Smart Mentor Matching Engine
+                                </h4>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    The system automatically analyzes user interest vectors and recommends compatible senior mentors from the university campus in real-time.
+                                </p>
+                            </div>
+
+                            <div className="p-4 bg-slate-800/60 border border-slate-700/60 rounded-xl">
+                                <h4 className="font-bold text-white flex items-center gap-2 mb-1">
+                                    <span className="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+                                    Mentorship Requests & Rating System
+                                </h4>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    Students can send direct mentorship requests. Once connected, students can review and rate mentors (1-5 stars) to maintain top-tier campus mentorship quality.
+                                </p>
+                            </div>
+
+                            <div className="p-4 bg-slate-800/60 border border-slate-700/60 rounded-xl">
+                                <h4 className="font-bold text-white flex items-center gap-2 mb-1">
+                                    <span className="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span>
+                                    Automated Peer Study Groups & Resources
+                                </h4>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    When multiple students ($\ge 2$) share identical interests, the platform triggers an automated peer study group alert and maps them to verified learning roadmaps, books, and YouTube playlists.
+                                </p>
+                            </div>
+
+                            <div className="p-4 bg-slate-800/60 border border-slate-700/60 rounded-xl">
+                                <h4 className="font-bold text-white flex items-center gap-2 mb-1">
+                                    <span className="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">5</span>
+                                    University Workshops & Admin Control
+                                </h4>
+                                <p className="text-xs text-slate-400 leading-relaxed">
+                                    Administrators manage institutional skill gaps by scheduling official campus seminars and workshops, allowing students to enroll directly from their dashboard.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div className="mt-6 pt-4 border-t border-slate-800 flex justify-end">
+                            <button
+                                onClick={() => setShowWorkflowModal(false)}
+                                className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition shadow-lg"
+                            >
+                                Got It, Let's Explore
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
             {/* --- Keyframe Animation for Floating Icons --- */}
-            <style  jsx  global>{`
+            <style jsx global>{`
                 @keyframes float {
                     0%, 100% { transform: translateY(0); }
                     50% { transform: translateY(-20px); }

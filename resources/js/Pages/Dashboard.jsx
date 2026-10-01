@@ -2,19 +2,40 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm, router } from '@inertiajs/react';
 import { useState } from 'react';
 
-// 📌 Mentor Card Sub-Component (With Batch & Department)
+// 📌 Mentor Card Sub-Component (With Batch, Department & Rating System)
 function MentorCard({ mentor }) {
-    const { data, setData, post, processing, reset } = useForm({
+    // Mentorship Request Form Hook
+    const requestForm = useForm({
         mentor_id: mentor ? mentor.id : '',
         skill_name: '',
     });
 
-    const submit = (e) => {
+    // Mentor Rating Form Hook
+    const ratingForm = useForm({
+        mentor_id: mentor ? mentor.id : '',
+        rating: 5,
+        review: '',
+    });
+
+    const [showRatingModal, setShowRatingModal] = useState(false);
+
+    const submitRequest = (e) => {
         e.preventDefault();
-        post(route('mentorship.request'), {
+        requestForm.post(route('mentorship.request'), {
             onSuccess: () => {
-                reset('skill_name');
+                requestForm.reset('skill_name');
                 alert(`Mentorship request sent to ${mentor.name}!`);
+            },
+        });
+    };
+
+    const submitRating = (e) => {
+        e.preventDefault();
+        ratingForm.post(route('mentor.rate'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                setShowRatingModal(false);
+                alert(`Thank you for rating ${mentor.name}!`);
             },
         });
     };
@@ -22,47 +43,114 @@ function MentorCard({ mentor }) {
     return (
         <div className="bg-[#1e293b] border border-indigo-500/30 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
             <div>
-                <div className="flex items-center space-x-4 mb-4">
-                    {mentor.profile_photo ? (
-                        <img 
-                            src={mentor.profile_photo} 
-                            alt={mentor.name} 
-                            className="w-12 h-12 rounded-lg object-cover border border-indigo-500/40 shrink-0" 
-                        />
-                    ) : (
-                        <div className="w-12 h-12 bg-indigo-100 text-indigo-700 flex items-center justify-center rounded-lg font-bold text-lg uppercase shrink-0">
-                            {mentor.name ? mentor.name.substring(0, 2) : 'ME'}
+                <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-4">
+                        {mentor.profile_photo ? (
+                            <img 
+                                src={mentor.profile_photo} 
+                                alt={mentor.name} 
+                                className="w-12 h-12 rounded-lg object-cover border border-indigo-500/40 shrink-0" 
+                            />
+                        ) : (
+                            <div className="w-12 h-12 bg-indigo-100 text-indigo-700 flex items-center justify-center rounded-lg font-bold text-lg uppercase shrink-0">
+                                {mentor.name ? mentor.name.substring(0, 2) : 'ME'}
+                            </div>
+                        )}
+                        <div>
+                            <h4 className="font-bold text-white text-base">{mentor.name}</h4>
+                            <p className="text-[10px] text-indigo-400 font-bold uppercase">
+                                {mentor.known_skills || mentor.skills || 'EXPERT'}
+                            </p>
+                            <p className="text-[11px] text-slate-400 mt-0.5">
+                                {mentor.department || 'CSE'} {mentor.batch ? `• Batch ${mentor.batch}` : ''}
+                            </p>
                         </div>
-                    )}
-                    <div>
-                        <h4 className="font-bold text-white text-base">{mentor.name}</h4>
-                        <p className="text-[10px] text-indigo-400 font-bold uppercase">
-                            {mentor.known_skills || mentor.skills || 'EXPERT'}
-                        </p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">
-                            {mentor.department || 'CSE'} {mentor.batch ? `• Batch ${mentor.batch}` : ''}
-                        </p>
                     </div>
+                    {/* Rate Mentor Button */}
+                    <button
+                        onClick={() => setShowRatingModal(true)}
+                        className="text-amber-400 hover:text-amber-300 text-xs bg-amber-500/10 border border-amber-500/30 px-2.5 py-1.5 rounded-lg transition font-semibold flex items-center gap-1 shrink-0"
+                        title="Rate Mentor"
+                    >
+                        <span>⭐</span> Rate
+                    </button>
                 </div>
             </div>
 
-            <form onSubmit={submit} className="space-y-2 mt-2">
+            <form onSubmit={submitRequest} className="space-y-2 mt-2">
                 <input
                     type="text"
                     placeholder="What do you want to learn?"
                     className="w-full bg-slate-900/50 border-slate-700 rounded-lg text-xs py-2 text-white placeholder-slate-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
-                    value={data.skill_name}
-                    onChange={(e) => setData('skill_name', e.target.value)}
+                    value={requestForm.data.skill_name}
+                    onChange={(e) => requestForm.setData('skill_name', e.target.value)}
                     required
                 />
                 <button
-                    disabled={processing}
+                    disabled={requestForm.processing}
                     type="submit"
                     className="w-full py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 rounded-lg font-bold text-xs shadow-md transition-all text-white disabled:opacity-50"
                 >
-                    {processing ? 'Sending...' : 'Request Mentorship'}
+                    {requestForm.processing ? 'Sending...' : 'Request Mentorship'}
                 </button>
             </form>
+
+            {/* --- Rating Modal --- */}
+            {showRatingModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+                    <div className="bg-slate-900 border border-amber-500/40 rounded-2xl p-6 max-w-sm w-full shadow-2xl text-left">
+                        <h3 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                            <span>⭐</span> Rate {mentor.name}
+                        </h3>
+                        <p className="text-xs text-slate-400 mb-4">Share your feedback to help improve mentorship quality.</p>
+
+                        <form onSubmit={submitRating} className="space-y-3">
+                            <div>
+                                <label className="block text-xs font-medium text-slate-300 mb-1">Rating (1 to 5 Stars)</label>
+                                <select
+                                    value={ratingForm.data.rating}
+                                    onChange={(e) => ratingForm.setData('rating', e.target.value)}
+                                    className="w-full bg-slate-800 border-slate-700 rounded-lg text-xs text-white py-2 focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                                >
+                                    <option value="5">⭐⭐⭐⭐⭐ (5 - Excellent)</option>
+                                    <option value="4">⭐⭐⭐⭐ (4 - Very Good)</option>
+                                    <option value="3">⭐⭐⭐ (3 - Good)</option>
+                                    <option value="2">⭐⭐ (2 - Fair)</option>
+                                    <option value="1">⭐ (1 - Poor)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-medium text-slate-300 mb-1">Review / Feedback (Optional)</label>
+                                <textarea
+                                    rows="3"
+                                    placeholder="Write a short review..."
+                                    value={ratingForm.data.review}
+                                    onChange={(e) => ratingForm.setData('review', e.target.value)}
+                                    className="w-full bg-slate-800 border-slate-700 rounded-lg text-xs text-white p-2 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 placeholder-slate-500"
+                                ></textarea>
+                            </div>
+
+                            <div className="flex space-x-2 justify-end pt-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowRatingModal(false)}
+                                    className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-lg transition"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={ratingForm.processing}
+                                    className="px-4 py-1.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg transition shadow-md disabled:opacity-50"
+                                >
+                                    {ratingForm.processing ? 'Submitting...' : 'Submit Rating'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
@@ -219,7 +307,7 @@ export default function Dashboard({
                         </div>
                     </div>
 
-                    {/* --- Automated Learning Resource Engine (FR6) --- */}
+                    {/* --- Automated Learning Resource Engine --- */}
                     {learningResources && learningResources.length > 0 && (
                         <div className="mb-10">
                             <h3 className="text-xl font-bold text-emerald-400 mb-6 flex items-center">
