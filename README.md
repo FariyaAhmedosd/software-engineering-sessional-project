@@ -64,7 +64,7 @@ This week, I focused on making the platform smarter and more user-friendly. Key 
 ---
 </details>
 <details>
-<summary><b>Week 6: Update Homepage banner into dark theme & floating logos & UI Enhancements :</b></summary>
+<summary><b>Week 6: mentorship request system & automatic peer study group suggestion</b></summary>
 
 ###  Key Accomplishments this week:
 - ** Mentorship Request System:** Successfully implemented the core mentorship request logic allowing students to send skill-based requests to mentors.
@@ -96,7 +96,7 @@ Bug Fixes: Resolved the "Class MentorshipRequest not found" error by properly ma
 * **Component Optimization:** Re-architected `MentorCard` into a dedicated sub-component in React to comply with React Hooks rules (`useForm`) inside map loops.
 </details>
 <details open>
-<summary><b>Week 7: Admin Panel Implementation & Profile/Route Fixes</b></summary>
+<summary><b>Week 7: Admin Panel Implementation & Automatic learnig resource suggestion & Profile/Route Fixes</b></summary>
 
 ### Key Accomplishments this week:
 - **Admin Panel Integration:** Implemented an admin control structure to manage users, monitor platform activities, and oversee skill data.
